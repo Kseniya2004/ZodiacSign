@@ -56,11 +56,12 @@ namespace ZodiacSign.Pages
         private void TxbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             string search = TxbSearch.Text;
-            if (TxbSearch.Text != null)
-            {
-                DgZnak.ItemsSource = znak_dbEntities.GetContext().zodiacSign.
-                    Where(x => x.birthdate?.ToString("MMMM").Contains(search)).ToList();
-            }
+            var listSomeValues = znak_dbEntities.GetContext().zodiacSign.ToList();
+            if (!string.IsNullOrWhiteSpace(search))
+                DgZnak.ItemsSource = listSomeValues.
+                Where(x => x.birthdate.Value.ToString("MMMM").ToLower().Contains(search.ToLower())).ToList();
+            else
+                DgZnak.ItemsSource = znak_dbEntities.GetContext().zodiacSign.ToList();
         }
     }
 }
